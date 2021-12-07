@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyterlab
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: {{ .Values.app.numServers }}
+  selector:
+    matchLabels:
+      app: jupyterlab
+  template:
+    metadata:
+      labels:
+        app: jupyterlab
+        name: jupyterlab
+    spec:
+      containers:
+        - name: jupyterlab
+          image: hokiegeek2/jupyterlab-k8s:{{ .Values.releaseVersion }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: {{ .Values.app.resources.requests.cpu }}
+              memory: {{ .Values.app.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.app.resources.limits.cpu }}
+              memory: {{ .Values.app.resources.limits.memory }}
+          ports:
+          - containerPort: {{ .Values.service.port }}
+            hostPort: {{ .Values.service.hostPort }}
+          env: []

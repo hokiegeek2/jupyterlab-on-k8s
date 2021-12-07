@@ -1,0 +1,32 @@
+FROM debian
+
+RUN DEBIAN_FRONTEND=noninteractive 
+
+CMD ["/bin/bash"]
+    
+RUN apt update -y && apt install curl procps vim build-essential git wget \
+    software-properties-common -y
+
+RUN apt install python3-pip -y 
+
+RUN useradd -m jupyter -s /usr/bin/bash -d /home/jupyter
+
+RUN apt-get update && apt install nodejs -y 
+RUN apt-get update && apt install npm  -y 
+RUN npm install -g configurable-http-proxy
+
+ARG VERSION=${VERSION}
+ENV VERSION=${VERSION}
+
+RUN pip3 install jupyterlab==$VERSION
+
+ADD src/scripts/start-jupyterlab.sh /opt/start-jupyterlab.sh
+RUN chown jupyter:jupyter /opt/start-jupyterlab.sh 
+
+EXPOSE 8888
+
+WORKDIR /home/jupyter
+
+USER jupyter
+
+ENTRYPOINT sh /opt/start-jupyterlab.sh
