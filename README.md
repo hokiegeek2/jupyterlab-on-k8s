@@ -2,6 +2,10 @@
 
 The jupyterlab-on-k8s project is a simple means of deploying jupyterlab on Kubernetes. In contrast to jupyterhub, jupyterlab is designed to support one user. Consequently, jupyterlab-on-k8s provides a highly straightforward means of testing Python client libraries against a variety of apps deployed within and outside Kubernetes--all within a familiar Jupyter notebook environment.
 
+## Python Version
+
+As of 20211208, the Python versiuon for jupyterlab-on-k8s is 3.9.2. Consequently, all Python notebooks are v3.9.2 while all pip installs must be executed with the pip3 application.
+
 ## Docker Build
 
 ```
